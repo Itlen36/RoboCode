@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3677859374697473132}
   m_Layer: 0
   m_Name: EndWhile
-  m_TagString: While
+  m_TagString: End while
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

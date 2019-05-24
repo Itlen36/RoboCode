@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5085993713871072665}
   - component: {fileID: 2612936945586335161}
   m_Layer: 0
-  m_Name: Rise Up
+  m_Name: RiseUp
   m_TagString: Rise Up
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,7 +142,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3527274593863617900}
-  m_Text: Rise Up
+  m_Text: Rise up
   m_OffsetZ: 0
   m_CharacterSize: 2
   m_LineSpacing: 1

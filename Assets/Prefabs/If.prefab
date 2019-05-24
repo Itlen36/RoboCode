@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1475590732344460806}
   m_Layer: 0
   m_Name: If
-  m_TagString: While
+  m_TagString: If
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
