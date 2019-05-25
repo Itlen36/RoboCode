@@ -24,20 +24,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _Level;
     [SerializeField] private GameObject _CodeEditor;
     public List<GameObject> Tiles;
-    private bool _EditorView;
+    public bool EditorView;
 
     void Start()
     {
         Tiles = new List<GameObject>();
         Tiles.Add(_Begin);
-        _EditorView = true;
+        EditorView = true;
     }
 
     void Update()
     {
-        if (_EditorView)
+        if (EditorView)
         {
             _CodeEditor.SetActive(true);
+            //_Level.SetActive(false);
             if (Input.GetMouseButtonDown(0))
             {
                 int layer_mask = LayerMask.GetMask("Default");
@@ -92,6 +93,7 @@ public class GameManager : MonoBehaviour
         } else
         {
             _CodeEditor.SetActive(false);
+            _Level.SetActive(true);
         }
     }
 }

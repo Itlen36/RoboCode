@@ -21,6 +21,7 @@ TagManager:
   - Jump to right
   - Come Down
   - Rise Up
+  - Let
   layers:
   - Default
   - TransparentFX

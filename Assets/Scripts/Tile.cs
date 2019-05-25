@@ -17,7 +17,7 @@ public class Tile : MonoBehaviour
     private void Awake()
     {
         _Offset = 0.05f;
-        _BondingDistance = 0.5f;
+        _BondingDistance = 0.8f;
         this._TabOffset = 0f;
         this.MovementEnabled = true;
         this.Established = false;
@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
         this.height = _Sprite.GetComponent<SpriteRenderer>().size.y;
         if (this.tag == "Begin")
         {
-            this._PortOffset = 0.4f;
+            this._PortOffset = 0.6f;
             this.BottomAffiliationEnabled = true;
             this.MovementEnabled = false;
             this.Established = true;
