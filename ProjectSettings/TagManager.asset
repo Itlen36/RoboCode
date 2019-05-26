@@ -23,6 +23,11 @@ TagManager:
   - Rise Up
   - Let
   - Star
+  - Floor
+  - LeftLiftTrigger
+  - BottomLiftTrigger
+  - TopLiftTrigger
+  - RightLiftTrigger
   layers:
   - Default
   - TransparentFX

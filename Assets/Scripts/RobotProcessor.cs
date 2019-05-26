@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +46,7 @@ public class RobotProcessor : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         ProcessorStep();
     }
@@ -284,7 +283,6 @@ public class RobotProcessor : MonoBehaviour
         ArrayList operators = new ArrayList { "Or", "And"};
         while (tile)
         {
-            Debug.Log(tile.gameObject.tag);
             if (tile.gameObject.tag == "And")
             {
                 if (!tile.RightAffiliation)

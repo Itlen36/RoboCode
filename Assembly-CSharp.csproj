@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\Lift.cs" />
     <Compile Include="Assets\Scripts\Robot.cs" />
     <Compile Include="Assets\Scripts\RobotProcessor.cs" />
     <Compile Include="Assets\Scripts\Tile.cs" />

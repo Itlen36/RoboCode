@@ -25,15 +25,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _ComeDownPrefab;
     [SerializeField] private GameObject _CodeEditor;
     [SerializeField] private GameObject _PanelMenu;
-    public GameObject Level;
+    [SerializeField] private Text _ButtonChageViewText;
+    [SerializeField] private GameObject _ButtonClearCode;
     public List<GameObject> Tiles;
+    public GameObject Level;
     public bool EditorView;
     public int StarsCount;
     public bool Finished;
 
     void Start()
     {
-        Tiles = new List<GameObject>();
         Tiles.Add(_Begin);
         EditorView = false;
     }
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour
         if (Finished)
         {
             _LevelManager.LevelComplite(StarsCount);
+            StarsCount = 0;
+            Finished = false;
         }
         else if (EditorView)
         {
@@ -109,5 +112,35 @@ public class GameManager : MonoBehaviour
     public void ChangeView()
     {
         EditorView = !EditorView;
+        if (EditorView)
+        {
+            _ButtonChageViewText.text = "Level view";
+            _ButtonClearCode.SetActive(true);
+        }
+        else
+        {
+            _ButtonChageViewText.text = "Code editor";
+            _ButtonClearCode.SetActive(false);
+        }
+
     }
+    public void TilesDestroyer()
+    {
+        Tile BeginTile = _Begin.GetComponent<Tile>();
+        if (BeginTile.BottomAffiliation)
+            DestroyTile(BeginTile.BottomAffiliation);
+        BeginTile.BottomAffiliationEnabled = true;
+        Tiles.Clear();
+        Tiles.Add(_Begin);
+    }
+    private void DestroyTile(GameObject Obj)
+    {
+        Tile tileScrip = Obj.GetComponent<Tile>();
+        if(tileScrip.RightAffiliation)
+            DestroyTile(tileScrip.RightAffiliation);
+        if (tileScrip.BottomAffiliation)
+            DestroyTile(tileScrip.BottomAffiliation);
+        Destroy(Obj);
+    }
+
 }
