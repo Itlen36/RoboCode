@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Robot : MonoBehaviour
 {
+    public GameManager gm;
     public GameObject RobotProcessopObg;
     private RobotProcessor _Processor;
     private Rigidbody2D _Rigidbody;
@@ -22,7 +23,6 @@ public class Robot : MonoBehaviour
     {
         if (collision.gameObject.tag == "Let")
         {
-            Debug.Log("trigger");
             _Processor.Registers.Collision = true;
         }
     }
@@ -31,18 +31,25 @@ public class Robot : MonoBehaviour
     {
         if (collision.gameObject.tag == "Let")
         {
-            Debug.Log("UNtrigger");
             _Processor.Registers.Collision = false;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collis");
-        _OnGround = true;
-        if (_Jump)
+        if (collision.gameObject.tag == "Floor")
         {
-            _Processor.Registers.Play = true;
-            _Jump = false;
+            _OnGround = true;
+            if (_Jump)
+            {
+                _Processor.Registers.Play = true;
+                _Jump = false;
+            }
+        } else if (collision.gameObject.tag == "Star")
+        {
+            gm.StarsCount++;
+        } else if(collision.gameObject.tag == "Finish")
+        {
+            gm.Finished = true;
         }
     }
 

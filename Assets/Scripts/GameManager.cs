@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private LevelManager _LevelManager;
     [SerializeField] private GameObject _Begin;
     [SerializeField] private GameObject _EndBeginPrefab;
     [SerializeField] private GameObject _WhilePrefab;
@@ -21,27 +23,33 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _JumpToLeftPrefab;
     [SerializeField] private GameObject _RiseUpPrefab;
     [SerializeField] private GameObject _ComeDownPrefab;
-    [SerializeField] private GameObject _Level;
     [SerializeField] private GameObject _CodeEditor;
+    [SerializeField] private GameObject _PanelMenu;
+    public GameObject Level;
     public List<GameObject> Tiles;
     public bool EditorView;
+    public int StarsCount;
+    public bool Finished;
 
     void Start()
     {
         Tiles = new List<GameObject>();
         Tiles.Add(_Begin);
-        EditorView = true;
+        EditorView = false;
     }
 
     void Update()
     {
-        if (EditorView)
+        if (Finished)
+        {
+            _LevelManager.LevelComplite(StarsCount);
+        }
+        else if (EditorView)
         {
             _CodeEditor.SetActive(true);
-            //_Level.SetActive(false);
+            Level.SetActive(false);
             if (Input.GetMouseButtonDown(0))
             {
-                int layer_mask = LayerMask.GetMask("Default");
                 RaycastHit2D hit;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -93,7 +101,13 @@ public class GameManager : MonoBehaviour
         } else
         {
             _CodeEditor.SetActive(false);
-            _Level.SetActive(true);
+            if (Level)
+                Level.SetActive(true);
         }
+    }
+
+    public void ChangeView()
+    {
+        EditorView = !EditorView;
     }
 }
