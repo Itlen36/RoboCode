@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _JumpToLeftPrefab;
     [SerializeField] private GameObject _RiseUpPrefab;
     [SerializeField] private GameObject _ComeDownPrefab;
+    [SerializeField] private GameObject _TruePrefab;
+    [SerializeField] private GameObject _IsABoxPrefab;
     [SerializeField] private GameObject _CodeEditor;
     [SerializeField] private GameObject _PanelMenu;
     [SerializeField] private Text _ButtonChageViewText;
@@ -92,6 +94,11 @@ public class GameManager : MonoBehaviour
                         tile = Instantiate(_RiseUpPrefab, position, Quaternion.identity);
                     else if (hit.collider.gameObject.tag == "Come Down")
                         tile = Instantiate(_ComeDownPrefab, position, Quaternion.identity);
+                    else if (hit.collider.gameObject.tag == "True")
+                        tile = Instantiate(_TruePrefab, position, Quaternion.identity);
+                    else if (hit.collider.gameObject.tag == "IsABox")
+                        tile = Instantiate(_IsABoxPrefab, position, Quaternion.identity);
+
 
                     if (tile != null)
                     {

@@ -28,6 +28,8 @@ TagManager:
   - BottomLiftTrigger
   - TopLiftTrigger
   - RightLiftTrigger
+  - True
+  - IsABox
   layers:
   - Default
   - TransparentFX

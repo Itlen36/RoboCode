@@ -74,6 +74,16 @@ public class Tile : MonoBehaviour
             this.LeftAffiliationEnabled = true;
             this.RightAffiliationEnabled = true;
         }
+        else if (this.tag == "True")
+        {
+            this.LeftAffiliationEnabled = true;
+            this.RightAffiliationEnabled = true;
+        }
+        else if (this.tag == "IsABox")
+        {
+            this.LeftAffiliationEnabled = true;
+            this.RightAffiliationEnabled = true;
+        }
         else if (this.tag == "On lift")
         {
             this.LeftAffiliationEnabled = true;

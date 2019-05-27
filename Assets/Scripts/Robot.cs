@@ -8,11 +8,10 @@ public class Robot : MonoBehaviour
     public RobotProcessor Processor;
     [SerializeField] private GameObject _Sprite;
     private Rigidbody2D _Rigidbody;
-    private float _Speed, _StepWidth, _TimeLastJump, TimeJump;
-    private bool _OnGround, _Jump, _Move, _LeftLiftTrigger, _RightLiftTrigger;
+    private float _Speed, _TimeLastJump, TimeJump;
+    private bool _OnGround, _Jump, _LeftLiftTrigger, _RightLiftTrigger;
     private Animator _animator;
     private GameObject _Lift;
-    private Vector3 _StartStepPositiop;
     void Start()
     {
         _animator = _Sprite.GetComponent<Animator>();
@@ -20,7 +19,6 @@ public class Robot : MonoBehaviour
         _Speed = 2f;
         _OnGround = true;
         _Jump = false;
-        _StepWidth = 0.5f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

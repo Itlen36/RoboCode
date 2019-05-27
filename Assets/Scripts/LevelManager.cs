@@ -87,7 +87,6 @@ public class LevelManager : MonoBehaviour
         for (int i = 1; i < _LevelProgress.Length; i++)
             _LevelProgress[i] = -1;
         _LevelProgress[0] = 0;
-        _LevelProgress[3] = 0;
         ReloadLevelMenu();
     }
 }

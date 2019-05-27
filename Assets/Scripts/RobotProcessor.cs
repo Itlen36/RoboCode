@@ -56,9 +56,9 @@ public class RobotProcessor : MonoBehaviour
         if (Registers.Play && Registers.CommandCounter!=_LenghtProgram-1)
         {
             int index = Registers.CommandCounter;
-            Debug.Log("StartStep");
-            Debug.Log("Registers: play = " + Registers.Play.ToString() + " collision = " + Registers.Collision.ToString() + " onLift = " + Registers.OnLift.ToString() + " Motion = " + Registers.Motion.ToString() + " CounterComand = " + Registers.CommandCounter.ToString());
-            Debug.Log("Comand: condition = " + _Program[index].condition + " trueTrasition = " + _Program[index].TrueTransition.ToString() + " falseTrasition = " + _Program[index].FalseTransition.ToString() + " registerMotion = " + _Program[index].RegiserMotion.ToString() + " registerPlay = " + _Program[index].RegisterPlay.ToString());
+            //Debug.Log("StartStep");
+            //Debug.Log("Registers: play = " + Registers.Play.ToString() + " collision = " + Registers.Collision.ToString() + " onLift = " + Registers.OnLift.ToString() + " Motion = " + Registers.Motion.ToString() + " CounterComand = " + Registers.CommandCounter.ToString());
+            //Debug.Log("Comand: condition = " + _Program[index].condition + " trueTrasition = " + _Program[index].TrueTransition.ToString() + " falseTrasition = " + _Program[index].FalseTransition.ToString() + " registerMotion = " + _Program[index].RegiserMotion.ToString() + " registerPlay = " + _Program[index].RegisterPlay.ToString());
             if (ConditionCheck(_Program[index].condition))
             {
                 if (_Program[index].RegiserMotion != -8)
@@ -137,6 +137,7 @@ public class RobotProcessor : MonoBehaviour
     private bool BuildCode()
     {
         string error = "";
+        _ErrorPanel.SetActive(false);
         if ((_LenghtProgram = getLenghtProgram(ref error)) == 0)
         {
             _ErrorText.text = error;
@@ -150,7 +151,6 @@ public class RobotProcessor : MonoBehaviour
             _ErrorPanel.SetActive(true);
             return false;
         }
-        Debug.Log("compiled");
         return true;
     }
 
@@ -189,13 +189,11 @@ public class RobotProcessor : MonoBehaviour
             _Program[index].RegiserMotion = -8;
             if (tileScript.gameObject.tag=="While")
             {
-                Debug.Log("While begin");
                 StartWhile.Push(index);
                 _Program[index].TrueTransition = index + 1;
             }
             else if (tileScript.gameObject.tag =="End while")
             {
-                Debug.Log("While end");
                 if (StartWhile.Count == 0)
                 {
                     error = "Ошибка! Встречен конец цикла, но начало отсутствует";
@@ -279,7 +277,7 @@ public class RobotProcessor : MonoBehaviour
 
     private bool getCondition(Tile tile, ref string condition, ref string error)
     {
-        ArrayList boolean = new ArrayList { "True", "Collision","On lift"};
+        ArrayList boolean = new ArrayList { "True", "Collision","On lift","IsABox"};
         ArrayList operators = new ArrayList { "Or", "And"};
         while (tile)
         {
@@ -360,6 +358,18 @@ public class RobotProcessor : MonoBehaviour
                     }
                 }
                 condition += 'L';
+            }
+            else if (tile.gameObject.tag == "IsABox")
+            {
+                if (tile.RightAffiliation)
+                {
+                    if (!operators.Contains(tile.RightAffiliation))
+                    {
+                        error = "Ошибка! Отсутствует оператор";
+                        return false;
+                    }
+                }
+                condition += 'T'; //Заменить когда будут коробки
             }
             if (tile.RightAffiliation)
                 tile = tile.RightAffiliation.GetComponent<Tile>();
