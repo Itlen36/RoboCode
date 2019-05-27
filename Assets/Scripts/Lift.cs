@@ -10,10 +10,9 @@ public class Lift : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Trigger");
-        if (collision.gameObject.tag == "TopLiftTrigger")
+        if (collision.gameObject.CompareTag("TopLiftTrigger"))
             TopPosition = true;
-        else if (collision.gameObject.tag == "BottomLiftTrigger")
+        else if (collision.gameObject.CompareTag("BottomLiftTrigger")) 
             LowerPosition = true;
     }
     

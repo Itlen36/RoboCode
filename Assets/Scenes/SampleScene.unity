@@ -469,6 +469,7 @@ MonoBehaviour:
   _Level2: {fileID: 3340483524669810154, guid: ccf3dab23ee96014ba0e5bb050888932, type: 3}
   _Level3: {fileID: 1188426437429505355, guid: 4b427bb3b3e6ea84e9b43b422dda0797, type: 3}
   _Level4: {fileID: 4612649346241548854, guid: b5a21a1b0bb9e4544a40fc8e616c140a, type: 3}
+  _Level5: {fileID: 8087883591853732959, guid: f87de3f87f7586a4fadefc1fc0ca9fda, type: 3}
 --- !u!4 &58173775
 Transform:
   m_ObjectHideFlags: 0
@@ -1873,6 +1874,7 @@ MonoBehaviour:
   _ErrorPanel: {fileID: 919305599}
   _ErrorText: {fileID: 45237150}
   _ButtonPlay: {fileID: 78242711}
+  IsRunning: 0
 --- !u!4 &1095705169
 Transform:
   m_ObjectHideFlags: 0
@@ -2478,6 +2480,7 @@ MonoBehaviour:
   _PanelMenu: {fileID: 1593645786}
   _ButtonChageViewText: {fileID: 1590567374}
   _ButtonClearCode: {fileID: 1459672996}
+  _ButtonPlay: {fileID: 78242709}
   Tiles: []
   Level: {fileID: 0}
   EditorView: 0
@@ -3239,8 +3242,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1271637364}
-        m_MethodName: TilesDestroyer
+      - m_Target: {fileID: 58173774}
+        m_MethodName: Restart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3304,7 +3307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1479387782
 Transform:
   m_ObjectHideFlags: 0

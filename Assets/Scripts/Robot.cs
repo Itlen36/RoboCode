@@ -23,25 +23,21 @@ public class Robot : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Let")
+        if (collision.gameObject.CompareTag("Let"))
             Processor.Registers.Collision = true;
-        else if (collision.gameObject.tag == "LeftLiftTrigger")
-        {
-            Debug.Log("LeftLift");
+        else if (collision.gameObject.CompareTag("LeftLiftTrigger"))
             _LeftLiftTrigger = true;
-        }
-        else if (collision.gameObject.tag == "RightLiftTrigger")
+        else if (collision.gameObject.CompareTag("RightLiftTrigger"))
         {
-            Debug.Log("RightLift");
             _RightLiftTrigger = true;
             _Lift = collision.gameObject.transform.parent.gameObject;
         }
-        else if (collision.gameObject.tag == "Star")
+        else if (collision.gameObject.CompareTag("Star"))
         {
             Destroy(collision.gameObject);
             gm.StarsCount++;
         }
-        else if (collision.gameObject.tag == "Finish")
+        else if (collision.gameObject.CompareTag("Finish"))
         {
             Processor.Registers.Play = false;
             Processor.Registers.Motion = 0;
@@ -51,21 +47,16 @@ public class Robot : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Let")
-        {
+        if (collision.gameObject.CompareTag("Let"))
             Processor.Registers.Collision = false;
-        }
-        else if (collision.gameObject.tag == "LeftLiftTrigger")
-        {
-            Debug.Log("LeftLiftExist");
+        else if (collision.gameObject.CompareTag("LeftLiftTrigger"))
             _LeftLiftTrigger = false;
-        }
-        else if (collision.gameObject.tag == "RightLiftTrigger")
-            _LeftLiftTrigger = false;
+        else if (collision.gameObject.CompareTag("RightLiftTrigger"))
+            _RightLiftTrigger = false;
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Floor")
+        if (collision.gameObject.CompareTag("Floor"))
         {
             _OnGround = true;
             if (_Jump)

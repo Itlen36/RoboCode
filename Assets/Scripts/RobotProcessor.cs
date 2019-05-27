@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class RobotProcessor : MonoBehaviour
@@ -12,7 +13,7 @@ public class RobotProcessor : MonoBehaviour
     [SerializeField] private Button _ButtonPlay;
 
     private int _LenghtProgram;
-
+    public bool IsRunning;
 
     private struct Command
     {
@@ -33,16 +34,17 @@ public class RobotProcessor : MonoBehaviour
     {
         _ErrorPanel.SetActive(false);
         Registers.CommandCounter = 0;
-        _ButtonPlay.onClick.AddListener(CompilAndRun);
+        _ButtonPlay.onClick.AddListener(CompileAndRun);
     }
 
-    void CompilAndRun()
+    void CompileAndRun()
     {
-        if (BuildCode())
+        if (!IsRunning && BuildCode())
         {
             Registers.CommandCounter = 0;
             Registers.Play = true;
             gm.EditorView = false;
+            IsRunning = true;
         }
     }
 
@@ -53,12 +55,12 @@ public class RobotProcessor : MonoBehaviour
 
     private void ProcessorStep()
     {
-        if (Registers.Play && Registers.CommandCounter!=_LenghtProgram-1)
+        if (Registers.Play && Registers.CommandCounter != _LenghtProgram - 1)
         {
             int index = Registers.CommandCounter;
-            //Debug.Log("StartStep");
-            //Debug.Log("Registers: play = " + Registers.Play.ToString() + " collision = " + Registers.Collision.ToString() + " onLift = " + Registers.OnLift.ToString() + " Motion = " + Registers.Motion.ToString() + " CounterComand = " + Registers.CommandCounter.ToString());
-            //Debug.Log("Comand: condition = " + _Program[index].condition + " trueTrasition = " + _Program[index].TrueTransition.ToString() + " falseTrasition = " + _Program[index].FalseTransition.ToString() + " registerMotion = " + _Program[index].RegiserMotion.ToString() + " registerPlay = " + _Program[index].RegisterPlay.ToString());
+            Debug.Log("StartStep");
+            Debug.Log("Registers: play = " + Registers.Play.ToString() + " collision = " + Registers.Collision.ToString() + " onLift = " + Registers.OnLift.ToString() + " Motion = " + Registers.Motion.ToString() + " CounterComand = " + Registers.CommandCounter.ToString());
+            Debug.Log("Comand: condition = " + _Program[index].condition + " trueTrasition = " + _Program[index].TrueTransition.ToString() + " falseTrasition = " + _Program[index].FalseTransition.ToString() + " registerMotion = " + _Program[index].RegiserMotion.ToString() + " registerPlay = " + _Program[index].RegisterPlay.ToString());
             if (ConditionCheck(_Program[index].condition))
             {
                 if (_Program[index].RegiserMotion != -8)
@@ -68,7 +70,8 @@ public class RobotProcessor : MonoBehaviour
             }
             else
                 Registers.CommandCounter = _Program[index].FalseTransition;
-        } else if (Registers.CommandCounter == _LenghtProgram - 1)
+        }
+        else if (Registers.CommandCounter == _LenghtProgram - 1)
         {
             Registers.Motion = 0;
             Registers.Play = false;
@@ -158,11 +161,15 @@ public class RobotProcessor : MonoBehaviour
     {
         Tile tileScript = _Begin.GetComponent<Tile>();
         int index = 0;
-        while (tileScript.gameObject.tag != "End begin")
+        var Operation = tileScript.gameObject;
+        while (!Operation.CompareTag("End begin"))
         {
             index++;
             if (tileScript.BottomAffiliation)
+            {
                 tileScript = tileScript.BottomAffiliation.GetComponent<Tile>();
+                Operation = tileScript.gameObject;
+            }
             else
             {
                 error = "Ошибка! Отсутсвует конец программы!";
@@ -179,7 +186,7 @@ public class RobotProcessor : MonoBehaviour
         StartIf = new Stack<int>();
         StartWhile = new Stack<int>();
         Tile tileScript = _Begin.GetComponent<Tile>();
-        for (int index = 0; index <_LenghtProgram-1; index++)
+        for (int index = 0; index < _LenghtProgram - 1; index++)
         {
             string cond = "";
             if (!getCondition(tileScript, ref cond, ref error))
@@ -187,12 +194,13 @@ public class RobotProcessor : MonoBehaviour
             _Program[index].condition = cond;
             _Program[index].RegisterPlay = true;
             _Program[index].RegiserMotion = -8;
-            if (tileScript.gameObject.tag=="While")
+            var Operation = tileScript.gameObject;
+            if (Operation.CompareTag("While"))
             {
                 StartWhile.Push(index);
                 _Program[index].TrueTransition = index + 1;
             }
-            else if (tileScript.gameObject.tag =="End while")
+            else if (Operation.CompareTag("End while"))
             {
                 if (StartWhile.Count == 0)
                 {
@@ -205,12 +213,12 @@ public class RobotProcessor : MonoBehaviour
                     _Program[StartWhile.Pop()].FalseTransition = index + 1;
                 }
             }
-            else if (tileScript.gameObject.tag == "If")
+            else if (Operation.CompareTag("If"))
             {
                 StartIf.Push(index);
                 _Program[index].TrueTransition = index + 1;
             }
-            else if (tileScript.gameObject.tag == "End if")
+            else if (Operation.CompareTag("End if"))
             {
                 if (StartIf.Count == 0)
                 {
@@ -221,45 +229,44 @@ public class RobotProcessor : MonoBehaviour
                     _Program[StartIf.Pop()].FalseTransition = index + 1;
                 _Program[index].TrueTransition = index + 1;
             }
-            else if (tileScript.gameObject.tag == "MoveRight")
+            else if (Operation.CompareTag("MoveRight"))
             {
                 _Program[index].TrueTransition = index + 1;
                 _Program[index].RegiserMotion = 1;
             }
-            else if (tileScript.gameObject.tag == "MoveLeft")
+            else if (Operation.CompareTag("MoveLeft"))
             {
                 _Program[index].TrueTransition = index + 1;
                 _Program[index].RegiserMotion = -1;
             }
-            else if (tileScript.gameObject.tag == "Jump to right")
+            else if (Operation.CompareTag("Jump to right"))
             {
                 _Program[index].TrueTransition = index + 1;
                 _Program[index].RegiserMotion = 2;
                 _Program[index].RegisterPlay = false;
             }
-            else if (tileScript.gameObject.tag == "Jump to left")
+            else if (Operation.CompareTag("Jump to left"))
             {
                 _Program[index].TrueTransition = index + 1;
                 _Program[index].RegiserMotion = -2;
                 _Program[index].RegisterPlay = false;
             }
-            else if (tileScript.gameObject.tag == "Rise Up")
+            else if (Operation.CompareTag("Rise Up"))
             {
                 _Program[index].TrueTransition = index + 1;
                 _Program[index].RegiserMotion = 3;
                 _Program[index].RegisterPlay = false;
             }
-            else if (tileScript.gameObject.tag == "Come Down")
+            else if (Operation.CompareTag("Come Down"))
             {
                 _Program[index].TrueTransition = index + 1;
                 _Program[index].RegiserMotion = -3;
                 _Program[index].RegisterPlay = false;
             }
-            else if (tileScript.gameObject.tag == "Begin")
+            else if (Operation.CompareTag("Begin"))
             {
                 _Program[0].TrueTransition = 1;
             }
-
             tileScript = tileScript.BottomAffiliation.GetComponent<Tile>();
         }
         if (StartIf.Count != 0)
@@ -277,11 +284,12 @@ public class RobotProcessor : MonoBehaviour
 
     private bool getCondition(Tile tile, ref string condition, ref string error)
     {
-        ArrayList boolean = new ArrayList { "True", "Collision","On lift","IsABox"};
-        ArrayList operators = new ArrayList { "Or", "And"};
+        ArrayList boolean = new ArrayList { "True", "Collision", "On lift", "IsABox" };
+        ArrayList operators = new ArrayList { "Or", "And" };
         while (tile)
         {
-            if (tile.gameObject.tag == "And")
+            var Operation = tile.gameObject;
+            if (Operation.CompareTag("And"))
             {
                 if (!tile.RightAffiliation)
                 {
@@ -295,7 +303,7 @@ public class RobotProcessor : MonoBehaviour
                 }
                 condition += 'A';
             }
-            else if (tile.gameObject.tag == "Or")
+            else if (Operation.CompareTag("Or"))
             {
                 if (!tile.RightAffiliation)
                 {
@@ -309,7 +317,7 @@ public class RobotProcessor : MonoBehaviour
                 }
                 condition += 'O';
             }
-            else if (tile.gameObject.tag == "Not")
+            else if (Operation.CompareTag("Not"))
             {
                 if (!tile.RightAffiliation)
                 {
@@ -323,7 +331,7 @@ public class RobotProcessor : MonoBehaviour
                 }
                 condition += 'N';
             }
-            else if (tile.gameObject.tag == "True")
+            else if (Operation.CompareTag("True"))
             {
                 if (tile.RightAffiliation)
                 {
@@ -335,10 +343,10 @@ public class RobotProcessor : MonoBehaviour
                 }
                 condition += 'T';
             }
-            else if (tile.gameObject.tag == "Collision")
+            else if (Operation.CompareTag("Collision"))
             {
                 if (tile.RightAffiliation)
-                { 
+                {
                     if (!operators.Contains(tile.RightAffiliation))
                     {
                         error = "Ошибка! Отсутствует оператор";
@@ -347,7 +355,7 @@ public class RobotProcessor : MonoBehaviour
                 }
                 condition += 'C';
             }
-            else if (tile.gameObject.tag == "On lift")
+            else if (Operation.CompareTag("On lift"))
             {
                 if (tile.RightAffiliation)
                 {
@@ -359,7 +367,7 @@ public class RobotProcessor : MonoBehaviour
                 }
                 condition += 'L';
             }
-            else if (tile.gameObject.tag == "IsABox")
+            else if (Operation.CompareTag("IsABox"))
             {
                 if (tile.RightAffiliation)
                 {

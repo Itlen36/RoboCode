@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _PanelMenu;
     [SerializeField] private Text _ButtonChageViewText;
     [SerializeField] private GameObject _ButtonClearCode;
+    [SerializeField] private GameObject _ButtonPlay;
     public List<GameObject> Tiles;
     public GameObject Level;
     public bool EditorView;
@@ -62,41 +63,42 @@ public class GameManager : MonoBehaviour
                 {
                     GameObject tile = null;
                     Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    if (hit.collider.gameObject.tag == "While")
+                    var go = hit.collider.gameObject;
+                    if (go.CompareTag("While"))
                         tile = Instantiate(_WhilePrefab, position , Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "End while")
+                    else if (go.CompareTag("End while"))
                         tile = Instantiate(_EndWhilePrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "End begin")
+                    else if (go.CompareTag("End begin"))
                         tile = Instantiate(_EndBeginPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "If")
+                    else if (go.CompareTag("If"))
                         tile = Instantiate(_IfPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "End if")
+                    else if (go.CompareTag("End if"))
                         tile = Instantiate(_EndIfPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Not")
+                    else if (go.CompareTag("Not"))
                         tile = Instantiate(_NotPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Or")
+                    else if (go.CompareTag("Or"))
                         tile = Instantiate(_OrPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "And")
+                    else if (go.CompareTag("And"))
                         tile = Instantiate(_AndPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Collision")
+                    else if (go.CompareTag("Collision"))
                         tile = Instantiate(_CollisionPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "On lift")
+                    else if (go.CompareTag("On lift"))
                         tile = Instantiate(_OnLiftPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "MoveRight")
+                    else if (go.CompareTag("MoveRight"))
                         tile = Instantiate(_MoveRightPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "MoveLeft")
+                    else if (go.CompareTag("MoveLeft"))
                         tile = Instantiate(_MoveLeftPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Jump to right")
+                    else if (go.CompareTag("Jump to right"))
                         tile = Instantiate(_JumpToRightPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Jump to left")
+                    else if (go.CompareTag("Jump to left"))
                         tile = Instantiate(_JumpToLeftPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Rise Up")
+                    else if (go.CompareTag("Rise Up"))
                         tile = Instantiate(_RiseUpPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "Come Down")
+                    else if (go.CompareTag("Come Down"))
                         tile = Instantiate(_ComeDownPrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "True")
+                    else if (go.CompareTag("True"))
                         tile = Instantiate(_TruePrefab, position, Quaternion.identity);
-                    else if (hit.collider.gameObject.tag == "IsABox")
+                    else if (go.CompareTag("IsABox"))
                         tile = Instantiate(_IsABoxPrefab, position, Quaternion.identity);
 
 
@@ -123,11 +125,13 @@ public class GameManager : MonoBehaviour
         {
             _ButtonChageViewText.text = "Level view";
             _ButtonClearCode.SetActive(true);
+            _ButtonPlay.SetActive(true);
         }
         else
         {
             _ButtonChageViewText.text = "Code editor";
             _ButtonClearCode.SetActive(false);
+            _ButtonPlay.SetActive(false);
         }
 
     }
