@@ -91,7 +91,7 @@ public class Robot : MonoBehaviour
             {
                 _Jump = true;
                 _animator.SetInteger("State", 2);
-                _Rigidbody.AddForce(new Vector2(20, 150), ForceMode2D.Impulse);
+                _Rigidbody.AddForce(new Vector2(30, 130), ForceMode2D.Impulse);
                 Processor.Registers.Motion = 0;
             }
         }
@@ -101,31 +101,41 @@ public class Robot : MonoBehaviour
             {
                 _Jump = true;
                 _animator.SetInteger("State", -2);
-                _Rigidbody.AddForce(new Vector2(-20, 150), ForceMode2D.Impulse);
+                _Rigidbody.AddForce(new Vector2(-30, 130), ForceMode2D.Impulse);
                 Processor.Registers.Motion = 0;
             }
         }
         else if (Processor.Registers.Motion == 3)
         {
-            _animator.SetInteger("State", 1);
-            if (_Lift.GetComponent<Lift>().TopPosition == true)
+            if (_Lift)
             {
-                Processor.Registers.Motion = 0;
-                Processor.Registers.Play = true;
+                _animator.SetInteger("State", 0);
+                if (_Lift.GetComponent<Lift>().TopPosition == true)
+                {
+                    Processor.Registers.Motion = 0;
+                    Processor.Registers.Play = true;
+                }
+                else
+                    _Lift.GetComponent<Lift>().MoveUp = true;
             }
-            else
-                _Lift.GetComponent<Lift>().MoveUp = true;
         }
         else if (Processor.Registers.Motion == -3)
         {
-            _animator.SetInteger("State", 1);
-            if (_Lift.GetComponent<Lift>().LowerPosition == true)
+            if (_Lift)
             {
-                Processor.Registers.Motion = 0;
-                Processor.Registers.Play = true;
+                _animator.SetInteger("State", 0);
+                if (_Lift && _Lift.GetComponent<Lift>().LowerPosition == true)
+                {
+                    Processor.Registers.Motion = 0;
+                    Processor.Registers.Play = true;
+                }
+                else
+                    _Lift.GetComponent<Lift>().MoveDown = true;
             }
-            else
-                _Lift.GetComponent<Lift>().MoveDown = true;
+        }
+        else if (Processor.Registers.Motion == 0)
+        {
+           _animator.SetInteger("State", 0);
         }
     }
 }

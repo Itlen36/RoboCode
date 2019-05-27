@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject _Level3;
     [SerializeField] private GameObject _Level4;
     [SerializeField] private GameObject _Level5;
+    [SerializeField] private GameObject _Level6;
     private int[] _LevelProgress;
     private GameObject[] _Levels;
     private GameObject _CurrentLevel;
@@ -88,7 +89,8 @@ public class LevelManager : MonoBehaviour
     {
         if (_LevelProgress[_NubnumberCurrentLevel - 1] < stars)
             _LevelProgress[_NubnumberCurrentLevel - 1] = stars;
-        _LevelProgress[_NubnumberCurrentLevel] = 0;
+        if (stars > 0)
+            _LevelProgress[_NubnumberCurrentLevel] = 0;
         Destroy(_CurrentLevel);
         _gm.TilesDestroyer();
         ReloadLevelMenu();
@@ -98,12 +100,11 @@ public class LevelManager : MonoBehaviour
     }
     void Start()
     {
-        _Levels = new GameObject[] { _Level1, _Level2, _Level3, _Level4, _Level5 };
+        _Levels = new GameObject[] { _Level1, _Level2, _Level3, _Level4, _Level5, _Level6 };
         _LevelProgress = new int[_LevelButtons.transform.childCount];
         for (int i = 1; i < _LevelProgress.Length; i++)
-            _LevelProgress[i] = -1;
+            _LevelProgress[i] = -1;  
         _LevelProgress[0] = 0;
-        _LevelProgress[4] = 0;
         ReloadLevelMenu();
     }
 }
